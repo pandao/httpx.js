@@ -39,7 +39,7 @@ Description :
 GET :
 
 ```javascript
-httpx.get("http://localhost/http-testd/get.php?foo=Level1&bar=XHR&zh=中文", function(data) {
+httpx.get("http://localhost/http-test/get.php?foo=Level1&bar=XHR&zh=中文", function(data) {
 	//console.log(data, this);
 }, function(method, url) {
 	console.error("Custom Error", method, url, this.status, this.statusText);
@@ -120,7 +120,7 @@ httpx.jsonp("http://192.168.1.2/http-test/jsonp.php?temp="+(new Date).getTime(),
 getScript :
 
 ```javascript
-httpx.getScript("http://192.168.1.2/test2/drv.js/test/test.js", function() {
+httpx.getScript("http://192.168.1.2/http-test/test.js", function() {
 	test();
 });
 ```
