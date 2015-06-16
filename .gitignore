@@ -1,0 +1,7 @@
+*.bat
+*.sh
+*.log
+backup/
+test/
+node_modules/
+.idea/

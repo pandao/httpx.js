@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <title>Get script - httpx.js Examples</title>
+        <link rel="stylesheet" href="css/global.css">
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Get script Examples</h1>    
+                <a href="index.html" class="btn">Back to index</a>               
+            </header>
+            <p>Insert to &lt;head&gt;</p><br/>
+            <pre id="output">Loading ...</pre>
+        </div>
+        <script src="../src/httpx.js"></script>
+        <script>   
+            var $ = function(id) {
+                return document.getElementById(id);
+            };
+            
+            var head = document.getElementsByTagName("head")[0];
+            
+            function getScriptTags() {
+                var head    = document.getElementsByTagName("head")[0];
+                var scripts = head.getElementsByTagName("script");
+                var tags    = [];
+                
+                for (var i = 0, len = scripts.length; i < len; i++) {
+                    tags.push(scripts[i].outerHTML);
+                }
+                
+                return tags.join("\n");
+            }
+            
+            httpx.getScript("./js/test.js", function(){
+                $("output").innerText = getScriptTags();
+                test();
+            });
+            
+            httpx.getScript("./js/test.js", function(){
+                $("output").innerText = getScriptTags();
+                test();
+            });
+            
+            // same domain
+            httpx.getScript("http://localhost/httpx.js/examples/js/test.js", function(){
+                $("output").innerText = getScriptTags();
+                test2();
+            });
+            
+            // Cross-domain
+            httpx.getScript("http://192.168.1.2/httpx.js/examples/js/test.js", function() {
+                $("output").innerText = getScriptTags();
+                test();
+                test2();
+            });
+        </script>
+    </body>
+</html>

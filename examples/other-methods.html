@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <title>Other Methods - httpx.js Examples</title>
+	    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <link rel="stylesheet" href="css/global.css">
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Other Methods Examples</h1>    
+                <a href="index.html" class="btn">Back to index</a>               
+            </header>
+            <pre id="output">Loading ...</pre>
+            <pre id="output2">Loading ...</pre>
+            <pre id="output3">Uncaught SecurityError: Failed to execute 'open' on 'XMLHttpRequest': 'TRACE' HTTP method is unsupported.</pre>
+            <pre id="output4" class="error">Uncaught SecurityError: Failed to execute 'open' on 'XMLHttpRequest': 'TRACE' HTTP method is unsupported.</pre>
+        </div>
+        <script src="../src/httpx.js"></script>
+        <script>   
+            var $ = function(id) {
+                return document.getElementById(id);
+            };
+            
+            httpx.request({
+                method : "HEAD",
+                url : "http://localhost/httpx.js/examples/php/head.php?temp=" + (new Date).getTime(), 
+                data : {
+                    url : "http://www.baidu.com/"
+                },
+                success : function() {
+                    
+                    var headers = [
+                        "Date: " + this.getResponseHeader("Date"),
+                        "Server: " + this.getResponseHeader("Server"),
+                        "Content-Type: " + this.getResponseHeader("Content-Type"),
+                        "X-Method: " + this.getResponseHeader("X-Method"), 
+                        "X-HEAD-Tag: " + this.getResponseHeader("X-HEAD-Tag"), 
+                        "X-HEAD-Request-Url: " + this.getResponseHeader("X-HEAD-Request-Url")
+                    ].join("\r\n");
+                    
+                    console.log("HEAD method\r\n" + headers, "\n\n", this.getAllResponseHeaders()); 
+                    
+                    $("output").innerText =  this.$method + " Method\n\n" + this.$url + "\n\nGet Response Headers\n\n" + this.getAllResponseHeaders();
+                }
+            });
+            
+            httpx.request({
+                method : "OPTIONS",
+                url : "http://localhost/httpx.js/examples/php/options.php?temp=" + (new Date).getTime(),
+                success : function(data) {
+                    console.log("data =>", data, this.$method, this.$url);  
+                    $("output2").innerText =  this.$method + " Method\n\n" + this.$url + "\n\nAccess-Control-Allow-Methods: " + this.getResponseHeader("Access-Control-Allow-Methods");     
+                }
+            });
+            
+            // Uncaught SecurityError: Failed to execute 'open' on 'XMLHttpRequest': 'TRACE' HTTP method is unsupported.
+            httpx.request({
+                method : "TRACE",
+                url : "http://localhost/httpx.js/examples/php/trace.php?temp=" + (new Date).getTime(),
+                success : function(data) {
+                    console.log("data =>", data);  
+                    $("output3").innerText =  this.responseURL+ "\n\n" + data;     
+                },
+                error : function(method, url) {
+                    var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
+                    console.error(error);
+                    document.getElementById("output4").innerText = error;
+                }
+            });
+        </script>
+    </body>
+</html>

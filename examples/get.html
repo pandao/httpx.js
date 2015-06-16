@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <title>GET - httpx.js Examples</title>
+        <link rel="stylesheet" href="css/global.css">
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>GET Examples</h1>   
+                <a href="index.html" class="btn">Back to index</a>       
+            </header>
+            <pre id="output">Loading ...</pre>
+            <pre id="output2">Loading ...</pre>
+            <pre id="output3" class="error">Loading ...</pre>
+            <pre id="output4">Loading ...</pre>
+            <pre id="output5" class="error">Loading ...</pre>
+        </div>
+        <script src="../src/httpx.js"></script>
+        <script>
+            var $ = function(id) {
+                return document.getElementById(id);
+            };
+            
+            httpx.get("http://localhost/httpx.js/examples/php/get.php", function(data) {
+                $("output").innerText = this.responseURL + "\n\n" +data;
+                console.log(data, this);
+            });
+            
+            httpx.get("http://localhost/httpx.js/examples/php/get.php?foo=bar&zh=中文", {test : 123}, function(data) {
+                $("output2").innerText = this.responseURL + "\n\n" + data;
+                console.log(data, this);
+            });
+            
+            httpx.get("http://localhost/httpx.js/examples/php/get2.php?foo=bar&zh=中文", {test : 123}, function(data) {
+                $("output3").innerText = this.responseURL + "\n\n" + data;
+                console.log(data, this);
+            }, function(method, url) {
+                var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
+                console.error(error);
+                $("output3").innerText = error;
+            });
+            
+            httpx.get({
+                url : "http://localhost/httpx.js/examples/php/get.php?foo=bar&zh=中文", 
+                data : {
+                    test : 123, 
+                    id : 4543
+                }, 
+                headers : {
+                    "xxxxx" : "xxxxxxx"
+                },
+                success : function(data) {
+                    $("output4").innerText = this.responseURL + "\n\n" + data;
+                    console.log(data, this);
+                }, 
+                error : function(method, url) {
+                    var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
+                    console.error(error);
+                    $("output4").innerText = error;
+                }
+            });
+            
+            httpx.get({
+                url : "http://localhost/httpx.js/examples/php2/get.php?foo=bar&zh=中文", 
+                data : {
+                    test : 123, 
+                    id : 4543
+                }, 
+                headers : {
+                    "xxxxx" : "xxxxxxx"
+                },
+                success : function(data) {
+                    $("output5").innerText = this.responseURL + "\n\n" + data;
+                    console.log(data, this);
+                }, 
+                error : function(method, url) {
+                    var error = method + " Error 2 : " + " " + url + " " + this.status + " " + this.statusText;
+                    console.error(error);
+                    $("output5").innerText = error;
+                }
+            });
+        </script>
+    </body>
+</html>

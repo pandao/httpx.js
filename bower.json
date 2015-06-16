@@ -1,0 +1,31 @@
+{
+  "name": "httpx.js",
+  "version": "0.1.0",
+  "homepage": "https://github.com/pandao/httpx.js",
+  "authors": [
+    "pandao <272383090@qq.com>"
+  ],
+  "description": "The simple HTTP / RESTful requests library of JavaScript (XHR).",
+  "main": "./src/httpx.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "HTTP",
+    "HTTP client",
+    "Ajax",
+    "requests",
+    "RESTful",
+    "XHR"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

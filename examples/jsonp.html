@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <title>JSONP - httpx.js Examples</title>
+        <link rel="stylesheet" href="css/global.css">
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>JSONP Examples</h1>    
+                <a href="index.html" class="btn">Back to index</a>               
+            </header>
+            <pre id="output">Loading ...</pre>
+            <pre id="output2">Loading ...</pre>
+        </div>
+        <script src="../src/httpx.js"></script>
+        <script>   
+            var $ = function(id) {
+                return document.getElementById(id);
+            };
+            
+            httpx.jsonp("http://localhost/httpx.js/examples/php/jsonp.php?temp=" + (new Date).getTime(), {test : 123, id : 4556656, title : "Title 中文标题"}, function(json, url) {
+                console.log("jsonp =>", json);  
+                $("output").innerText = url + "\n\n" + JSON.stringify(json);            
+            });
+            
+            httpx.jsonp("http://192.168.1.2/httpx.js/examples/php/jsonp.php?temp=" + (new Date).getTime(), {test : 123, id : 4556656, title : "Title 中文标题"}, function(json, url) {
+                console.log("jsonp2 =>", json);  
+                $("output2").innerText = url + "\n\n" + JSON.stringify(json);            
+            });
+        </script>
+    </body>
+</html>

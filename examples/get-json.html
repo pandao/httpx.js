@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <title>GET JSON - httpx.js Examples</title>
+        <link rel="stylesheet" href="css/global.css">
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>GET JSON Examples</h1>    
+                <a href="index.html" class="btn">Back to index</a>               
+            </header>
+            <pre id="output">Loading ...</pre>
+            <pre id="output2">Loading ...</pre>
+            <pre id="output3" class="error">Loading ...</pre>
+        </div>
+        <script src="../src/httpx.js"></script>
+        <script>   
+            var $ = function(id) {
+                return document.getElementById(id);
+            };
+            
+            httpx.json("http://localhost/httpx.js/examples/php/get-json.php?temp="+(new Date).getTime(), {test:123}, function(json) {
+                console.log("json =>", json);    
+                $("output").innerText = this.responseURL + "\n\n" + this.responseText;
+                console.log(json, this);            
+            });
+            
+            httpx.getJSON({
+                url : "http://localhost/httpx.js/examples/php/get-json.php?temp="+(new Date).getTime(), 
+                data : {test : 123, id : 4556656, title : "Title 中文标题"}, 
+                success : function(json) {
+                    console.log("getJSON1 =>", json);
+                    $("output2").innerText = this.responseURL + "\n\n" + this.responseText;
+                    console.log(json, this);
+                },
+                error : function(method, url) {
+                    console.error("getJSON Error =>", method, url);
+                }
+            });
+            
+            httpx.getJSON({
+                url : "http://localhost/httpx.js/examples/php/get-json3.php?temp="+(new Date).getTime(), 
+                data : {test : 123}, 
+                success : function(json) {
+                    console.log("getJSON2 =>", json);
+                    $("output3").innerText = this.responseURL + "\n\n" + this.responseText;
+                    console.log(json, this);
+                },
+                error : function(method, url) {
+                    var error = "GET JSON Error : " + " " + url + " " + this.status + " " + this.statusText;
+                    console.error(error);
+                    document.getElementById("output3").innerText = error;
+                }
+            });
+        </script>
+    </body>
+</html>

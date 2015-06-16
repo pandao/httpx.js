@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+	    <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" />
+        <title>Timeout - httpx.js Examples</title>
+        <link rel="stylesheet" href="css/global.css">
+    </head>
+    <body>
+        <div id="layout">
+            <header>
+                <h1>Timeout Examples</h1>    
+                <a href="index.html" class="btn">Back to index</a>               
+            </header>
+            <pre id="output" class="error">Loading ...</pre>
+            <pre id="output2" class="error">Loading ...</pre>
+            <pre id="output3" class="error">Loading ...</pre>
+            <pre id="output4" class="error">Loading ...</pre>
+        </div>
+        <script src="../src/httpx.js"></script>
+        <script>   
+            var $ = function(id) {
+                return document.getElementById(id);
+            };
+
+			httpx.get({
+				timeout : 1000, // default 3000 (ms)
+				url : "http://localhost/httpx.js/examples/php/timeout.php?temp=" + (new Date).getTime(),
+                error : function(method, url) {
+                    var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
+                    console.error(error);
+                    document.getElementById("output").innerText = error;
+                },
+				ontimeout : function(method, url) {
+                    var error = method + " Timeout : " + " " + url + " " + this.status + " " + this.statusText;
+                    console.error(error);
+                    document.getElementById("output2").innerText = error;
+				}
+			});
+
+			httpx.get({
+				timeout : 4000, // default 3000 (ms)
+				url : "http://localhost/httpx.js/examples/php/timeout.php?temp=" + (new Date).getTime(),
+                error : function(method, url) {
+                    var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
+                    console.error(error);
+                    document.getElementById("output3").innerText = error;
+                },
+				ontimeout : function(method, url) {
+                    var error = method + " Timeout : " + " " + url + " " + this.status + " " + this.statusText;
+                    console.error(error);
+                    document.getElementById("output4").innerText = error;
+				}
+			});
+        </script>
+    </body>
+</html>

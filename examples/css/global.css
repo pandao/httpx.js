@@ -1,0 +1,124 @@
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,
+th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {
+    margin: 0;
+    padding: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+    display: block;
+}
+
+audio, canvas, video {
+    display: inline-block;
+}
+
+body, html {width:100%;}
+
+body {
+    color:#666;
+    font-size:14px;
+    background:#fff;
+}
+
+body , pre, textarea, input {
+    font-family:  "Microsoft YaHei", Helvetica, Tahoma, STXihei, "华文细黑", STHeiti, "Helvetica Neue", Helvetica, Tahoma, "Droid Sans", "wenquanyi micro hei", FreeSans, Arimo, Arial, SimSun, "宋体", Heiti, "黑体", sans-serif; 
+}
+
+a {color:#444;text-decoration: none;}
+a:hover {color:#065BC2;text-decoration: none;}
+
+.clear {zoom:1;}
+.clear:after {content:"";height:0;visibility:hidden;clear:both;display:block;}
+
+img {border:none;vertical-align: middle;}
+ul {list-style: none;}
+
+#layout {
+    padding: 40px;
+}
+
+#layout header {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+#layout header h1 {
+    font-size: 25px;
+    display: inline-block;
+}
+
+.btn {
+    padding: 6px 12px;
+    border: 1px solid #eee;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+.btn:hover {
+    color:#fff;
+    border-color: #2EC67C;
+    background-color: #2EC67C;
+}
+
+#layout header .btn {
+    float: right;
+}
+
+small {
+    color: #999;
+    padding: 6px 10px;
+    display: block;
+    margin: 10px 0;
+    background-color: #f6f6f6;
+    border: 1px solid #eee;
+}
+
+.list {}
+.list li {margin-left: 0;}
+.list li a {
+    display: block;
+    padding: 10px 0;
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+.list li a:hover {background-color: #2EC67C;color:#fff;padding: 10px 20px;-webkit-border-radius: 5px;border-radius: 5px;}
+
+pre {
+    padding: 15px;
+    margin-bottom: 15px;
+    background: #fafafa;
+    border: 1px solid #eee;
+    word-break: break-all;
+    word-wrap: break-word;
+    -webkit-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+}
+
+pre.error {
+    background: #FCD8D8;
+    color: red;
+    border-color: red;
+}
+
+pre:hover {
+    background-color: #fffccc;
+    border-color: #EDE04B;
+}
+
+@media only screen and (max-width: 480px) {
+    #layout header {
+        overflow: visible;
+    }
+
+    #layout header h1 {
+        display: block;
+    }
+    
+    #layout header .btn {
+        float: none;
+        margin-top: 15px;
+        display: block;
+    }
+}
