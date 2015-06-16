@@ -16,7 +16,7 @@ bower install httpx.js --save
 - POST
 - PUT
 - PATCH
-- DELTE
+- DELETE
 - Other
 - JSON
 - JSONP
