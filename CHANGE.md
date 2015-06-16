@@ -10,7 +10,7 @@ Methods :
 - POST
 - PUT
 - PATCH
-- DELTE
+- DELETE
 - JSON
 - JSONP
 - getScript
