@@ -2,12 +2,12 @@
  * httpx.js
  *
  * @file        httpx.js 
- * @version     0.1.0 
+ * @version     0.2.0 
  * @description The simple HTTP / RESTful requests library of JavaScript (XHR).
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/httpx.js}
- * @updateTime  2015-06-16
+ * @updateTime  2015-06-17
  */
 
 (function(factory) {
@@ -32,7 +32,7 @@
     "use strict";
     
     var httpx = {
-        version : "0.1.0",
+        version : "0.2.0",
         
         /**
          * Create XHR object
@@ -103,7 +103,7 @@
 
             //console.log("settings =>", settings);
 
-            var urlData = this.urlBuild(url, data);
+            var urlData = urlBuild(url, data);
 
             data = urlData.data;
 
@@ -114,7 +114,7 @@
 
             var xhr = this.xhr();
 
-            xhr.onreadystatechange = function() {
+            var readyStateChange = function(e) {
                 
                 if ( xhr.readyState === 4 )
                 {
@@ -139,19 +139,20 @@
                     }
                     else 
                     {
-                        settings.error.bind(xhr)(method, url);
+                        settings.error.bind(xhr)(method, url, e);
                     }
                 }
-
-            };
-
-            xhr.ontimeout = function() {
-                settings.ontimeout.bind(xhr)(method, url);
-            };        
-
-            xhr.onerror   = function() {
-                settings.error.bind(xhr)(method, url);
-            };
+            };            
+            
+            xhr.addEventListener("readystatechange", readyStateChange);
+            
+            xhr.addEventListener("error", function(e) {
+                settings.error.bind(xhr)(method, url, e);
+            });
+            
+            xhr.addEventListener("timeout", function(e) {
+                settings.ontimeout.bind(xhr)(method, url, e);
+            });
 
             xhr.open(method, url, true);
 
@@ -284,7 +285,7 @@
          * @return {void}
          */
         
-        delete : function(url, data, callback, error) {
+        "delete" : function(url, data, callback, error) {
             this.exec("DELETE", url, data, callback, error);
         },
         
@@ -344,35 +345,6 @@
         },
         
         /**
-         * Query url & strings build
-         * 
-         * @param  {string}   url      request url
-         * @param  {object}   data     request datas
-         * @return {object}
-         */
-        
-        urlBuild : function(url, data) {
-
-            if (typeof data === "object")
-            {
-                var temp = [];
-
-                for (var i in data) {
-                    temp.push(i + "=" + encodeURIComponent(data[i]));
-                }
-
-                data = temp.join("&");
-            }
-
-            url = url + ( (url.indexOf("?") < 0) ? ( (data === "" || !data) ? "" : "?" ) : (data === "" || !data) ? "" : "&") + data;
-
-            return {
-                url  : url,
-                data : data
-            };
-        },
-        
-        /**
          * JSONP method
          * 
          * @param  {string|object} url          request url or options k/v object    
@@ -393,7 +365,7 @@
                 data     = "";
             }
 
-            var urlData = this.urlBuild(url, data);
+            var urlData = urlBuild(url, data);
 
             url  = urlData.url;
             data = urlData.data;
@@ -476,6 +448,35 @@
             
             head.appendChild(script);
         }
+    };
+        
+    /**
+     * Query url & strings build
+     * 
+     * @param  {string} url  request url
+     * @param  {object} data request datas
+     * @return {object}
+     */
+
+    function urlBuild(url, data) {
+
+        if (typeof data === "object")
+        {
+            var temp = [];
+
+            for (var i in data) {
+                temp.push(i + "=" + encodeURIComponent(data[i]));
+            }
+
+            data = temp.join("&");
+        }
+
+        url = url + ( (url.indexOf("?") < 0) ? ( (data === "" || !data) ? "" : "?" ) : (data === "" || !data) ? "" : "&") + data;
+
+        return {
+            url  : url,
+            data : data
+        };
     };
     
     return httpx;

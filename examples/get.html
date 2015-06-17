@@ -37,9 +37,9 @@
             httpx.get("http://localhost/httpx.js/examples/php/get2.php?foo=bar&zh=中文", {test : 123}, function(data) {
                 $("output3").innerText = this.responseURL + "\n\n" + data;
                 console.log(data, this);
-            }, function(method, url) {
+            }, function(method, url, event) {
                 var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
-                console.error(error);
+                console.error(error, event);
                 $("output3").innerText = error;
             });
             
@@ -56,9 +56,9 @@
                     $("output4").innerText = this.responseURL + "\n\n" + data;
                     console.log(data, this);
                 }, 
-                error : function(method, url) {
+                error : function(method, url, event) {
                     var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
-                    console.error(error);
+                    console.error(error, event);
                     $("output4").innerText = error;
                 }
             });
@@ -76,9 +76,9 @@
                     $("output5").innerText = this.responseURL + "\n\n" + data;
                     console.log(data, this);
                 }, 
-                error : function(method, url) {
+                error : function(method, url, event) {
                     var error = method + " Error 2 : " + " " + url + " " + this.status + " " + this.statusText;
-                    console.error(error);
+                    console.error(error, event);
                     $("output5").innerText = error;
                 }
             });
