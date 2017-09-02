@@ -41,9 +41,11 @@
                         "X-HEAD-Request-Url: " + this.getResponseHeader("X-HEAD-Request-Url")
                     ].join("\r\n");
                     
-                    console.log("HEAD method\r\n" + headers, "\n\n", this.getAllResponseHeaders()); 
+                    console.log("HEAD method\r\n" + headers, "\n\n", this.getAllResponseHeaders());
+
+                    console.log(this.$request);
                     
-                    $("output").innerText =  this.$method + " Method\n\n" + this.$url + "\n\nGet Response Headers\n\n" + this.getAllResponseHeaders();
+                    $("output").innerText =  this.$request.method + " Method\n\n" + this.$request.url + "\n\nGet Response Headers\n\n" + this.getAllResponseHeaders();
                 }
             });
             
@@ -51,8 +53,8 @@
                 method : "OPTIONS",
                 url : "http://localhost/httpx.js/examples/php/options.php?temp=" + (new Date).getTime(),
                 success : function(data) {
-                    console.log("data =>", data, this.$method, this.$url);  
-                    $("output2").innerText =  this.$method + " Method\n\n" + this.$url + "\n\nAccess-Control-Allow-Methods: " + this.getResponseHeader("Access-Control-Allow-Methods");     
+                    console.log("data =>", data, this.$method, this.$request.url);
+                    $("output2").innerText =  this.$method + " Method\n\n" + this.$request.url + "\n\nAccess-Control-Allow-Methods: " + this.getResponseHeader("Access-Control-Allow-Methods");
                 }
             });
             
@@ -62,7 +64,7 @@
                 url : "http://localhost/httpx.js/examples/php/trace.php?temp=" + (new Date).getTime(),
                 success : function(data) {
                     console.log("data =>", data);  
-                    $("output3").innerText =  this.responseURL+ "\n\n" + data;     
+                    $("output3").innerText =  this.$request.url+ "\n\n" + data;
                 },
                 error : function(method, url) {
                     var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;

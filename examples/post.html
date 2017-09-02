@@ -15,6 +15,7 @@
             <pre id="output">Loading ...</pre>
             <pre id="output2">Loading ...</pre>
             <pre id="output3" class="error">Loading ...</pre>
+            <pre id="output4">Loading ...</pre>
         </div>
         <script src="../src/httpx.js"></script>
         <script>   
@@ -22,15 +23,15 @@
                 return document.getElementById(id);
             };
 
-            httpx.post("http://localhost/httpx.js/examples/php/post.php?edfd=eedfd&dfsdf=ere", {
+            httpx.post("./php/post.php?edfd=eedfd&dfsdf=ere", {
                 a : 12,
                 b : "bbbb",
                 c : 123489
             }, function(data) {
-                $("output").innerText = this.responseURL + "\n\n" + data;
+                $("output").innerText = this.$request.url + "\n\n" + data;
                 console.log(data, this);
             });
-            
+
             httpx.post({
                 headers : {
                     dfsdf : "sdcsx",
@@ -39,7 +40,7 @@
                 url : "http://localhost/httpx.js/examples/php/post.php?edfd=eedfd&dfsdf=ere",
                 data : {id : 1233, add_time: (new Date).getTime()},
                 success : function(data) {
-                    $("output2").innerText = this.responseURL + "\n\n" + data;
+                    $("output2").innerText = this.$request.url + "\n\n" + data;
                     console.log(data, this);
                 }
             });
@@ -52,7 +53,7 @@
                 url : "http://localhost/httpx.js/examples/php/post3.php?edfd=eedfd&dfsdf=ere",
                 data : {id : 1233, add_time: (new Date).getTime()},
                 success : function(data) {
-                    $("output3").innerText = this.responseURL + "\n\n" + data;
+                    $("output3").innerText = this.$request.url + "\n\n" + data;
                     console.log(data, this);
                 },
                 error : function(method, url) {
@@ -60,6 +61,16 @@
                     console.error(error);
                     document.getElementById("output3").innerText = error;
                 }
+            });
+
+            // Cross domain
+            httpx.post("http://api.httpxjs.com/", {
+                test : 123,
+                id : 4543,
+                name : 'ajax',
+                bar : 'far'
+            }, function (result) {
+                $("output4").innerText = 'Cross domain post request => ' + result;
             });
         </script>
     </body>

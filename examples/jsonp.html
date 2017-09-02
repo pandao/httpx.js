@@ -21,12 +21,12 @@
                 return document.getElementById(id);
             };
             
-            httpx.jsonp("http://localhost/httpx.js/examples/php/jsonp.php?temp=" + (new Date).getTime(), {test : 123, id : 4556656, title : "Title 中文标题"}, function(json, url) {
+            httpx.jsonp("./php/jsonp.php?temp=" + (new Date).getTime(), {test : 123, id : 4556656, title : "Title 中文标题"}, function(json, url) {
                 console.log("jsonp =>", json);  
                 $("output").innerText = url + "\n\n" + JSON.stringify(json);            
             });
             
-            httpx.jsonp("http://192.168.1.2/httpx.js/examples/php/jsonp.php?temp=" + (new Date).getTime(), {test : 123, id : 4556656, title : "Title 中文标题"}, function(json, url) {
+            httpx.jsonp("http://192.168.44.224/httpx.js/examples/php/jsonp.php?temp=" + (new Date).getTime(), {test : 123, id : 4556656, title : "Title 中文标题"}, function(json, url) {
                 console.log("jsonp2 =>", json);  
                 $("output2").innerText = url + "\n\n" + JSON.stringify(json);            
             });

@@ -8,6 +8,9 @@ The simple HTTP / RESTful requests library of JavaScript (XHR).
 
 ```shell
 bower install httpx.js --save
+
+# or
+npm install httpx.js --save
 ```
 
 ### Methods
@@ -131,6 +134,7 @@ defaults :
 
 ```javascript
 {
+    debug         : false,
 	async         : true,
 	timeout       : 3000,
 	method        : "GET",
@@ -154,7 +158,7 @@ httpx.request({
 	method : "HEAD",  // Custom http method
 	headers : {},  // Custom http headers
 	success : function(data) {
-		console.log(data);
+		console.log(data, this, this.$request);
 	}
 });
 
@@ -164,7 +168,7 @@ httpx.get({
 		"xxxxxxx" : "xxxxx"
 	},
 	success : function(data) {
-		console.log(data);
+		console.log(data, this, this.$request);
 	}
 });
 
@@ -178,11 +182,26 @@ httpx.post({
 		"xxxxxxx" : "xxxxx"
 	},
 	success : function(data) {
-		console.log(data);
+		console.log(data, this, this.$request);
 	}
 });
 
 // put/patch/delete/json ...
+```
+
+### Development
+
+```bash
+# init
+npm install
+
+# develop
+gulp watch
+# or npm run dev
+
+# production
+gulp build
+# or npm run build
 ```
 
 ### Changes
@@ -193,4 +212,4 @@ httpx.post({
 
 The [MIT License](https://github.com/pandao/httpx.js/blob/master/LICENSE).
 
-Copyright (c) 2015 Pandao
+Copyright (c) 2015~2017 Pandao

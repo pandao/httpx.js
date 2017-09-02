@@ -15,6 +15,7 @@
             <pre id="output">Loading ...</pre>
             <pre id="output2">Loading ...</pre>
             <pre id="output3" class="error">Loading ...</pre>
+            <pre id="output4">Loading ...</pre>
         </div>
         <script src="../src/httpx.js"></script>
         <script>   
@@ -22,38 +23,48 @@
                 return document.getElementById(id);
             };
             
-            httpx.json("http://localhost/httpx.js/examples/php/get-json.php?temp="+(new Date).getTime(), {test:123}, function(json) {
-                console.log("json =>", json);    
-                $("output").innerText = this.responseURL + "\n\n" + this.responseText;
+            httpx.json("./php/get-json.php?temp="+(new Date).getTime(), {test:123}, function(json) {
+                console.log("json =>", json, this);
+                $("output").innerText = this.$request.url + "\n\n" + this.responseText;
                 console.log(json, this);            
             });
             
             httpx.getJSON({
-                url : "http://localhost/httpx.js/examples/php/get-json.php?temp="+(new Date).getTime(), 
-                data : {test : 123, id : 4556656, title : "Title 中文标题"}, 
+                url : "./php/get-json.php?temp="+(new Date).getTime(),
+                data : {test : 123, id : 4556656, title : "Title 中文标题"},
                 success : function(json) {
                     console.log("getJSON1 =>", json);
-                    $("output2").innerText = this.responseURL + "\n\n" + this.responseText;
+                    $("output2").innerText = this.$request.url + "\n\n" + this.responseText;
                     console.log(json, this);
                 },
                 error : function(method, url) {
                     console.error("getJSON Error =>", method, url);
                 }
             });
-            
+
             httpx.getJSON({
-                url : "http://localhost/httpx.js/examples/php/get-json3.php?temp="+(new Date).getTime(), 
+                url : "http://localhost/httpx.js/examples/php/get-json3.php?temp="+(new Date).getTime(),
                 data : {test : 123}, 
                 success : function(json) {
                     console.log("getJSON2 =>", json);
-                    $("output3").innerText = this.responseURL + "\n\n" + this.responseText;
+                    $("output3").innerText = this.$request.url + "\n\n" + this.responseText;
                     console.log(json, this);
                 },
                 error : function(method, url) {
                     var error = "GET JSON Error : " + " " + url + " " + this.status + " " + this.statusText;
                     console.error(error);
-                    document.getElementById("output3").innerText = error;
+                    $("output3").innerText = error;
                 }
+            });
+
+            // Cross domain
+            httpx.getJSON("http://api.httpxjs.com/", {
+                test : 123,
+                id : 4543,
+                name : 'ajax',
+                bar : 'far'
+            }, function (result) {
+                $("output4").innerHTML = 'Cross domain getJSON => ' + JSON.stringify(result);
             });
         </script>
     </body>

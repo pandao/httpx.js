@@ -1,6 +1,6 @@
 {
   "name": "httpx.js",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "The simple HTTP / RESTful requests library of JavaScript (XHR).",
   "main": "src/httpx.js",
   "directories": {
@@ -8,6 +8,8 @@
     "test": "test"
   },
   "scripts": {
+    "dev": "gulp dev",
+    "build": "gulp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,6 +31,7 @@
   },
   "homepage": "https://github.com/pandao/httpx.js",
   "devDependencies": {
+    "browser-sync": "^2.18.13",
     "dateformatter": "^0.1.0",
     "gulp": "^3.8.11",
     "gulp-concat": "^2.4.2",
@@ -39,6 +42,7 @@
     "gulp-replace": "^0.5.3",
     "gulp-uglify": "^1.2.0",
     "gulp-uglifyjs": "^0.6.2",
-    "gulp-util": "^3.0.1"
+    "gulp-util": "^3.0.1",
+    "opn": "^5.1.0"
   }
 }

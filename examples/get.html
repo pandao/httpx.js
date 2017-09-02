@@ -17,45 +17,47 @@
             <pre id="output3" class="error">Loading ...</pre>
             <pre id="output4">Loading ...</pre>
             <pre id="output5" class="error">Loading ...</pre>
+            <pre id="output6">Loading ...</pre>
+            <pre id="output7">Loading ...</pre>
         </div>
-        <script src="../src/httpx.js"></script>
+        <script src="../dist/httpx.min.js"></script>
         <script>
             var $ = function(id) {
                 return document.getElementById(id);
             };
-            
-            httpx.get("http://localhost/httpx.js/examples/php/get.php", function(data) {
-                $("output").innerText = this.responseURL + "\n\n" +data;
+
+            httpx.get("./php/get.php", function(data) {
+                $("output").innerText = this.$request.url + "\n\n" +data;
                 console.log(data, this);
             });
-            
-            httpx.get("http://localhost/httpx.js/examples/php/get.php?foo=bar&zh=中文", {test : 123}, function(data) {
-                $("output2").innerText = this.responseURL + "\n\n" + data;
+
+            httpx.get("./php/get.php?foo=bar&zh=中文", {test : 123}, function(data) {
+                $("output2").innerText = this.$request.url + "\n\n" + data;
                 console.log(data, this);
             });
-            
+
             httpx.get("http://localhost/httpx.js/examples/php/get2.php?foo=bar&zh=中文", {test : 123}, function(data) {
-                $("output3").innerText = this.responseURL + "\n\n" + data;
+                $("output3").innerText = this.$request.url + "\n\n" + data;
                 console.log(data, this);
             }, function(method, url, event) {
                 var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
                 console.error(error, event);
                 $("output3").innerText = error;
             });
-            
+
             httpx.get({
-                url : "http://localhost/httpx.js/examples/php/get.php?foo=bar&zh=中文", 
+                url : "./php/get.php?foo=bar&zh=中文",
                 data : {
-                    test : 123, 
+                    test : 123,
                     id : 4543
-                }, 
+                },
                 headers : {
                     "xxxxx" : "xxxxxxx"
                 },
                 success : function(data) {
-                    $("output4").innerText = this.responseURL + "\n\n" + data;
+                    $("output4").innerText = this.$request.url + "\n\n" + data;
                     console.log(data, this);
-                }, 
+                },
                 error : function(method, url, event) {
                     var error = method + " Error : " + " " + url + " " + this.status + " " + this.statusText;
                     console.error(error, event);
@@ -64,7 +66,7 @@
             });
             
             httpx.get({
-                url : "http://localhost/httpx.js/examples/php2/get.php?foo=bar&zh=中文", 
+                url : "http://localhost/httpx.js/examples/php2/get.php?foo=bar&zh=中文",
                 data : {
                     test : 123, 
                     id : 4543
@@ -73,13 +75,47 @@
                     "xxxxx" : "xxxxxxx"
                 },
                 success : function(data) {
-                    $("output5").innerText = this.responseURL + "\n\n" + data;
+                    $("output5").innerText = this.$request.url + "\n\n" + data;
                     console.log(data, this);
                 }, 
                 error : function(method, url, event) {
                     var error = method + " Error 2 : " + " " + url + " " + this.status + " " + this.statusText;
                     console.error(error, event);
                     $("output5").innerText = error;
+                }
+            });
+
+            // Cross domain
+            httpx.get("http://api.httpxjs.com/", {
+                test : 123,
+                id : 4543,
+                name : 'ajax',
+                bar : 'far'
+            }, function (result) {
+                $("output6").innerText = 'Cross domain request result: \n';
+                $("output6").innerText += JSON.stringify(JSON.parse(result), null, '   ');
+            });
+
+            // Options
+            httpx.get("http://api.httpxjs.com/", {
+                test : 123,
+                id : 4543,
+                name : 'ajax',
+                bar : 'far'
+            }, function (result) {
+                var text = 'request options:\n';
+                text += JSON.stringify(this.$request, null, '   ') + '\n\n';
+                text += 'result:\n';
+                text += JSON.stringify(result, null, '   ');
+
+                $("output7").innerText = text;
+            }, null, {
+                debug : true,
+                dataType : 'json',
+                jsonp : 'jsonpCallback',
+                headers : {
+                    'Access-Token' : 'fa346576sdfds6ASfhu25uit5DL4ohMWrb9',
+                    'X-XXX-XXX' : 'PHP 7.0'
                 }
             });
         </script>
