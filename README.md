@@ -21,7 +21,7 @@ npm install httpx.js --save
 - PATCH
 - DELETE
 - Other
-- JSON
+- JSON `(alias getJSON)`
 - JSONP
 - getScript
 
@@ -37,7 +37,7 @@ npm install httpx.js --save
 
 Description :
 
-	get|post|put|patch|delete|json(alias getJSON)(url, [data], [callback], [error]);
+	get|post|put|patch|delete|json(alias getJSON)(url, [data], [callback], [error], [options]);
 
 GET :
 
