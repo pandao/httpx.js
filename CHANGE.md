@@ -6,6 +6,12 @@
 
 ## v0.x
 
+### v0.3.1
+
+- Add: The `request()` method add new option `xhrFields : { withCredentials: false }` like jQuery;
+- Add: The `request()` method add new option `sendBefore()`;
+- Add: The `request()` and `exec()` method return XMLHttpRequest Or XDomainRequest Object;
+
 ### v0.3.0
 
 - Add: The `request()` method add new option `debug`;

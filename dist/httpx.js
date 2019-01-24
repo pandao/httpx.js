@@ -2,12 +2,12 @@
  * httpx.js
  *
  * @file        httpx.js 
- * @version     0.3.0 
+ * @version     0.3.1 
  * @description The simple HTTP / RESTful requests library of JavaScript (XHR).
  * @license     MIT License
  * @author      Pandao
  * {@link       https://github.com/pandao/httpx.js}
- * @updateTime  2017-09-02
+ * @updateTime  2019-01-24
  */
 
 /* global module,define,console */
@@ -72,7 +72,7 @@
     }
 
     var httpx = {
-        version : "0.3.0",
+        version : "0.3.1",
 
         useXDR : false,
 
@@ -123,6 +123,12 @@
                 headers       : {},
                 contentType   : "text/plain; charset=UTF-8",
                 jsonp         : "callback",  // for query string
+                xhrFields     : { //  like jQuery xhrFields options
+                    withCredentials : false
+                },
+                sendBefore    : function(xhr) {
+                    return xhr; // or return this, this == xhr
+                },
                 success       : function() {},
                 error         : function(method, url) {
                     console.error("HTTP Request Error: ", method, url, this.status + " (" + ((this.statusText) ? this.statusText : "Unkown Error / Timeout") + ")");
@@ -158,8 +164,8 @@
         /**
          * XHR requester
          *
-         * @param  {object}        [options={}]  reqeust options
-         * @return {void|boolean}  void
+         * @param  {object}                  [options={}]  request options
+         * @return {XMLHttpRequest|boolean}  xhr           XMLHttpRequest Or XDomainRequest Object
          */
 
         request : function(options) {
@@ -204,6 +210,10 @@
 
             if (!xhr) {
                 return false;
+            }
+
+            if (typeof settings.xhrFields.withCredentials !== "undefined") {
+                xhr.withCredentials = settings.xhrFields.withCredentials;
             }
 
             var success = function () {
@@ -294,19 +304,33 @@
             xhr.$dataType = settings.dataType;
             xhr.timeout   = settings.timeout;
 
+            if (typeof settings.sendBefore === "function") {
+                // sendBefore for custom xhr fields
+                var _xhr = settings.sendBefore.bind(xhr)(xhr);
+
+                if (_xhr) {
+                    if (_xhr instanceof XMLHttpRequest ||
+                        (typeof XDomainRequest !== "undefined" && _xhr instanceof XDomainRequest)) {
+                        xhr = _xhr;
+                    }
+                }
+            }
+
             xhr.send(data);
+
+            return xhr;
         },
 
         /**
          * Execute request for short methods
          *
-         * @param  {string}        method   HTTP method
-         * @param  {string|object} url      request url or options k/v object
-         * @param  {object}        data     request datas
-         * @param  {function}      callback Success callback
-         * @param  {function}      error    Error callback
-         * @param  {object}        options  Request options
-         * @return {void}
+         * @param  {string}          method     HTTP method
+         * @param  {string|object}   url        request url or options k/v object
+         * @param  {object}          data       request data
+         * @param  {function}        callback   Success callback
+         * @param  {function}        error      Error callback
+         * @param  {object}          options    Request options
+         * @return {XMLHttpRequest}  xhr        XMLHttpRequest Or XDomainRequest Object
          */
 
         exec : function(method, url, data, callback, error, options) {
@@ -334,7 +358,7 @@
                 options.method = method;
             }
 
-            this.request(extend(defaults, options));
+            return this.request(extend(defaults, options));
         },
 
         /**

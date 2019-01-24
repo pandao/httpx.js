@@ -9,26 +9,45 @@
     <body>
         <div id="layout">
             <header>
-                <h1>GET JSON Examples</h1>    
-                <a href="index.html" class="btn">Back to index</a>               
+                <h1>GET JSON Examples</h1>
+                <a href="index.html" class="btn">Back to index</a>
             </header>
             <pre id="output">Loading ...</pre>
+            <pre id="output1">Loading ...</pre>
             <pre id="output2">Loading ...</pre>
             <pre id="output3" class="error">Loading ...</pre>
             <pre id="output4">Loading ...</pre>
         </div>
         <script src="../src/httpx.js"></script>
-        <script>   
+        <script>
             var $ = function(id) {
                 return document.getElementById(id);
             };
-            
+
             httpx.json("./php/get-json.php?temp="+(new Date).getTime(), {test:123}, function(json) {
                 console.log("json =>", json, this);
                 $("output").innerText = this.$request.url + "\n\n" + this.responseText;
-                console.log(json, this);            
+                console.log(json, this);
             });
-            
+
+            httpx.json("https://jsonplaceholder.typicode.com/posts/42?temp="+(new Date).getTime(), {test:1}, function(json) {
+                console.log("cross domain get json =>", json, this);
+                $("output1").innerText = this.$request.url + "\n\n" + this.responseText;
+                console.log(json, this);
+            }, function (error) {
+                console.error(error);
+            }, {
+                sendBefore : function (xhr) {
+                    // this == xhr
+                    // send before custom xhr fields
+                    xhr.timeout = 30000;
+                    xhr.withCredentials = true;
+                    console.log('send before =>',xhr, this);
+
+                    return this; // or return xhr;
+                }
+            });
+
             httpx.getJSON({
                 url : "./php/get-json.php?temp="+(new Date).getTime(),
                 data : {test : 123, id : 4556656, title : "Title 中文标题"},
@@ -44,7 +63,7 @@
 
             httpx.getJSON({
                 url : "http://localhost/httpx.js/examples/php/get-json3.php?temp="+(new Date).getTime(),
-                data : {test : 123}, 
+                data : {test : 123},
                 success : function(json) {
                     console.log("getJSON2 =>", json);
                     $("output3").innerText = this.$request.url + "\n\n" + this.responseText;

@@ -1,6 +1,6 @@
 {
   "name": "httpx.js",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "The simple HTTP / RESTful requests library of JavaScript (XHR).",
   "main": "src/httpx.js",
   "directories": {
