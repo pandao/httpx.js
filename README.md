@@ -144,6 +144,12 @@ defaults :
     headers       : {},
     contentType   : "text/plain; charset=UTF-8",
     jsonp         : "callback",    // for query string
+    xhrFields     : { //  like jQuery xhrFields options
+        withCredentials : false
+    },
+    sendBefore    : function(xhr) {
+        return xhr; // or return this, this == xhr
+    },
     success       : function() {},
     error         : function(method, url) {},
     ontimeout     : function(method, url) {}
